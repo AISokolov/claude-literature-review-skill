@@ -30,11 +30,11 @@ Clone the repository into your personal skills folder:
 
 ```bash
 # macOS / Linux
-git clone [<repo-url>](https://github.com/AISokolov/claude-literature-review-skill.git) ~/.claude/skills/literature-review
+git clone https://github.com/AISokolov/claude-literature-review-skill.git ~/.claude/skills/literature-review
 ```
 ```powershell
 # Windows (PowerShell)
-git clone [<repo-url>](https://github.com/AISokolov/claude-literature-review-skill.git) "$HOME\.claude\skills\literature-review"
+git clone https://github.com/AISokolov/claude-literature-review-skill.git "$HOME\.claude\skills\literature-review"
 ```
 
 That's it: the skill is available in every Claude Code session, from any folder. To update later, run `git pull` in that folder. Your personal data in `data/` is git-ignored and is never touched by an update.
