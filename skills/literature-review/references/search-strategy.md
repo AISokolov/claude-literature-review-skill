@@ -62,7 +62,7 @@ Publisher platforms (ACM DL, IEEE Xplore, ScienceDirect, Springer, Wiley, T&F) o
 6. A PDF the user supplies
 
 Download with:
-`curl -sL -m 60 -A "literature-review-skill" -o "$SKILL/data/pdfs/<doi with / replaced by _>.pdf" "<url>"`
+`curl -sL -m 60 -A "literature-review-skill" -o "$DATA/pdfs/<doi with / replaced by _>.pdf" "<url>"`
 Use a distinct filename per attempt, or check before the next attempt: a failed retry must not overwrite a good file. The file must start with `%PDF-` (`head -c 5`). If it's HTML (paywall, login or bot check), discard it and mark the paper `Abstract only`. To remove a file, use a literal path, never a shell variable.
 
 ## Coverage tracking

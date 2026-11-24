@@ -2,8 +2,8 @@
 
 ## Evidence base
 - Use **accepted** papers only (`state.py list --status accepted`, then `state.py show <key>`). If a sheet is configured, also use the papers already in the sheet (read all mapped columns). Pending, rejected or search-only papers may be mentioned only as "unvalidated leads" in a separate section.
-- When a claim needs a page reference and the cached PDF exists, re-open it (`pdf_local`) to confirm the reference. Don't rely on memory.
-- Start every report with a **coverage section**: date, profile topic (and its status), number of approved papers, papers per stream, the queries run (from `data/search_log.json`), and a caveat that rejected, inaccessible or abstract-only papers limit the conclusions.
+- When a claim needs a page reference and the cached PDF exists, re-open it (`$DATA/<pdf_local>`) to confirm the reference. Don't rely on memory.
+- Start every report with a **coverage section**: date, profile topic (and its status), number of approved papers, papers per stream, the queries run (from `$DATA/search_log.json`), and a caveat that rejected, inaccessible or abstract-only papers limit the conclusions.
 
 ## Versioning
 Get the path with `state.py next-report research-gaps` (or `summary`, `methodology`). Never overwrite an earlier version. In a new version, open with "Changes since vN": new papers considered, and gaps strengthened, weakened or withdrawn. If the profile changed since the last version, say how.

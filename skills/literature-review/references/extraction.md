@@ -23,7 +23,7 @@ Always explain the score in terms of the profile's research question (and `proje
 ```json
 {
   "title": "", "authors": ["Last, F."], "year": 2020, "venue": "", "doi": "10.xxxx/...",
-  "url": "https://doi.org/...", "pdf_url": "", "pdf_local": "data/pdfs/....pdf",
+  "url": "https://doi.org/...", "pdf_url": "", "pdf_local": "pdfs/....pdf  (relative to $DATA)",
   "availability": "Full text | Abstract only | Metadata only",
   "peer_reviewed": true,
   "foundational_justification": "only if older than year_range.from",

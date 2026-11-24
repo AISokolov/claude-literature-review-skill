@@ -1,0 +1,13 @@
+{
+  "name": "literature-review",
+  "version": "1.1.0",
+  "description": "Academic literature review assistant for any discipline: verified paper discovery (OpenAlex, Semantic Scholar, Crossref and discipline databases), legal full-text analysis with page references, manual Accept/Reject review, optional append-only Google Sheets sync, and evidence-based research-gap reports, driven by a personal research profile.",
+  "author": {
+    "name": "AISokolov",
+    "url": "https://github.com/AISokolov"
+  },
+  "homepage": "https://github.com/AISokolov/claude-literature-review-skill",
+  "repository": "https://github.com/AISokolov/claude-literature-review-skill",
+  "license": "MIT",
+  "keywords": ["literature-review", "academic-research", "systematic-review", "openalex", "research-tools", "thesis"]
+}

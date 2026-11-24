@@ -26,18 +26,35 @@ Everything adapts to a **research profile** (topic, research streams, search ter
 
 ## Installation
 
-Clone the repository into your personal skills folder:
+### Option A: as a Claude Code plugin (recommended)
+
+This repository is also a plugin marketplace. Start Claude Code (`claude`) and run:
+
+```
+/plugin marketplace add AISokolov/claude-literature-review-skill
+/plugin install literature-review@literature-review-skill
+```
+
+Restart Claude Code if the skill doesn't appear right away. To update later, run `/plugin marketplace update literature-review-skill`, or manage the plugin from the `/plugin` menu.
+
+### Option B: as a personal skill (manual)
+
+Copy only the skill folder into your personal skills folder:
 
 ```bash
 # macOS / Linux
-git clone https://github.com/AISokolov/claude-literature-review-skill.git ~/.claude/skills/literature-review
+git clone https://github.com/AISokolov/claude-literature-review-skill.git
+cp -r claude-literature-review-skill/skills/literature-review ~/.claude/skills/
 ```
 ```powershell
 # Windows (PowerShell)
-git clone https://github.com/AISokolov/claude-literature-review-skill.git "$HOME\.claude\skills\literature-review"
+git clone https://github.com/AISokolov/claude-literature-review-skill.git
+Copy-Item -Recurse claude-literature-review-skill\skills\literature-review "$HOME\.claude\skills\"
 ```
 
-That's it: the skill is available in every Claude Code session, from any folder. To update later, run `git pull` in that folder. Your personal data in `data/` is git-ignored and is never touched by an update.
+Either way, the skill is available in every Claude Code session, from any folder. Your personal data lives outside the skill folder (see [Where your data lives](#where-your-data-lives)), so updating or reinstalling never touches it.
+
+> **Upgrading from 1.0** (installed with `git clone` into `~/.claude/skills/literature-review`): move that folder's `data/` directory to `~/.claude/literature-review-data/`, then delete the old folder and install with Option A or B.
 
 To set API keys, add them to your shell environment (for example `setx S2_API_KEY "..."` on Windows, or `export S2_API_KEY=...` in your shell profile), then start a new session.
 
@@ -47,6 +64,8 @@ To set API keys, add them to your shell environment (for example `setx S2_API_KE
 /literature-review
 ```
 
+(Type `/` to see the command list. Plugin skills may be listed with a plugin prefix, e.g. `/literature-review:literature-review`. You can also just ask: "find papers for my thesis".)
+
 With no profile yet, the skill runs setup and asks for:
 
 - **Required:** thesis topic (a preliminary topic is fine), research streams, search terms. If you don't have streams or terms yet, it suggests some from your topic for you to confirm or edit.
@@ -54,7 +73,7 @@ With no profile yet, the skill runs setup and asks for:
 
 If you give a spreadsheet, the skill reads its header row and existing rows, proposes how each column should be filled (matching your current writing style), and asks about anything ambiguous. It never creates a new spreadsheet or changes your columns.
 
-The profile is saved to `data/research-profile.json` and loaded automatically from then on. See [`research-profile.example.json`](research-profile.example.json) for a complete example from another field.
+The profile is saved to `~/.claude/literature-review-data/research-profile.json` and loaded automatically from then on. See [`research-profile.example.json`](skills/literature-review/research-profile.example.json) for a complete example from another field.
 
 ## Usage
 
@@ -82,10 +101,10 @@ Updating the profile never deletes papers, review decisions or reports.
 
 ## Where your data lives
 
-All personal data stays local in `data/`, which is excluded from git:
+All personal data stays local, **outside** the skill or plugin folder, so updates never touch it:
 
 ```
-data/
+~/.claude/literature-review-data/        (override with the LITERATURE_REVIEW_DATA environment variable)
   research-profile.json   your profile (topic, streams, terms, sheet ID and column mapping)
   library.json            every paper surfaced: pending / accepted / rejected, sheet sync status
   sheet_index.json        DOIs/titles already in your sheet (for duplicate checks)
@@ -94,19 +113,22 @@ data/
   reports/                research-gaps-v001.md, summary-v001.md, …
 ```
 
-To move to another computer, copy `data/` along with the skill.
+To move to another computer, copy that folder. To keep separate profiles for separate projects, point `LITERATURE_REVIEW_DATA` at a different folder per project.
 
 ## How it works
 
 ```
-SKILL.md                         workflow, commands, non-negotiable rules
-references/profile-setup.md      first-run setup and profile commands
-references/search-strategy.md    APIs, discipline sources, query building, legal full-text sources
-references/extraction.md         evidence rules, record format, paper card
-references/sheet-sync.md         duplicate-safe, append-only Google Sheets procedure
-references/gap-analysis.md       gap / summary / methodology report formats
-scripts/state.py                 local JSON state (review queue, decisions, sync status, dedupe)
-research-profile.example.json    example profile
+.claude-plugin/plugin.json                 plugin manifest
+.claude-plugin/marketplace.json            makes this repo installable via /plugin
+skills/literature-review/
+  SKILL.md                                 workflow, commands, non-negotiable rules
+  references/profile-setup.md              first-run setup and profile commands
+  references/search-strategy.md            APIs, discipline sources, query building, legal full-text sources
+  references/extraction.md                 evidence rules, record format, paper card
+  references/sheet-sync.md                 duplicate-safe, append-only Google Sheets procedure
+  references/gap-analysis.md               gap / summary / methodology report formats
+  scripts/state.py                         local JSON state (review queue, decisions, sync status, dedupe)
+  research-profile.example.json            example profile
 ```
 
 There's no server, database or web app: Claude Code does the research, and a small Python script keeps the local state consistent.

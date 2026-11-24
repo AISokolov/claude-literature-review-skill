@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """Local state for the literature-review skill. Standard library only.
 
-All state lives in ../data/ next to this script (git-ignored):
+All user data lives OUTSIDE the skill/plugin folder, so updates never touch it:
+  default  ~/.claude/literature-review-data/
+  override with the environment variable LITERATURE_REVIEW_DATA
+Contents:
   research-profile.json  the user's research profile (topic, streams, terms, optional sheet)
   library.json      every paper ever surfaced: review status + sheet sync status
   sheet_index.json  DOIs / normalized titles already present in the Google Sheet
   search_log.json   queries run, per source, with result counts (search coverage)
+  pdfs/, reports/   cached open-access PDFs and versioned reports
 
 Usage (run with: python state.py <command> ...):
+  data-dir                              print the absolute data directory (creates it)
   profile-check                         report a missing profile or missing required fields
   key <doi-or-title>                    print the normalized key
   filter <candidates.json>              print candidates not already known (library or sheet)
@@ -20,12 +25,13 @@ Usage (run with: python state.py <command> ...):
   stats                                 counts: pending / accepted / rejected / synced / sync_pending
   sheet-index <index.json>              replace sheet_index.json with {"dois": [...], "titles": [...]}
   log-search --source S --query Q --count N [--stream N]
-  next-report <name>                    print the next free versioned path in data/reports/
+  next-report <name>                    print the next free versioned path in <data>/reports/
 """
 import json, os, re, sys, tempfile, unicodedata
 from datetime import datetime, timezone
 
-DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+DATA = os.path.abspath(os.path.expanduser(
+    os.environ.get("LITERATURE_REVIEW_DATA") or os.path.join("~", ".claude", "literature-review-data")))
 PROFILE = os.path.join(DATA, "research-profile.json")
 LIB = os.path.join(DATA, "library.json")
 SHEET = os.path.join(DATA, "sheet_index.json")
@@ -99,7 +105,11 @@ def main(argv):
     lib = load(LIB, {"papers": {}})
     opt = lambda name, default=None: args[args.index(name) + 1] if name in args else default
 
-    if cmd == "profile-check":
+    if cmd == "data-dir":
+        os.makedirs(os.path.join(DATA, "pdfs"), exist_ok=True)
+        print(DATA)
+
+    elif cmd == "profile-check":
         if not os.path.exists(PROFILE):
             print("missing profile: run setup"); sys.exit(2)
         try:

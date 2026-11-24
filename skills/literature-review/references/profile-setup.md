@@ -1,6 +1,6 @@
 # Research profile: setup and management
 
-The profile lives at `$SKILL/data/research-profile.json` (git-ignored). Its schema is shown by `$SKILL/research-profile.example.json`. `state.py profile-check` reports a missing file or missing required fields.
+The profile lives at `$DATA/research-profile.json` (`state.py data-dir` prints `$DATA`; it is outside the skill folder). Its schema is shown by `$SKILL/research-profile.example.json`. `state.py profile-check` reports a missing file or missing required fields.
 
 ## First-run setup (or `setup`)
 
@@ -33,7 +33,7 @@ If the user has no streams or terms yet, **propose** them from the topic, questi
 4. Ask about every ambiguous column (e.g., is "Future work" the authors' own future work or a suggested follow-up?). Set `mapping_confirmed: true` only after the user confirms.
 5. Never create a new spreadsheet or change existing columns.
 
-**Save:** write `data/research-profile.json`, run `state.py profile-check`, show a short summary, and offer to start the first search.
+**Save:** write `$DATA/research-profile.json`, run `state.py profile-check`, show a short summary, and offer to start the first search.
 
 ## Profile commands
 

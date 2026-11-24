@@ -6,12 +6,12 @@ argument-hint: "[setup | profile | update topic|streams|terms | find <topic> | f
 
 # Literature Review Assistant
 
-Skill directory: `~/.claude/skills/literature-review/` (call it `$SKILL`).
+`$SKILL` = this skill's base directory: the one shown when the skill loads (installed as a plugin or as a personal skill under `~/.claude/skills/`). Reference files are relative to it.
 State helper: `python "$SKILL/scripts/state.py" <command>` (run without args for help).
-User data lives in `$SKILL/data/`: the research profile, review history, cached PDFs and reports. It is never committed to git.
+`$DATA` = the user's data directory: print it with `state.py data-dir`. The default is `~/.claude/literature-review-data/`, overridable with the `LITERATURE_REVIEW_DATA` environment variable. It holds the research profile, review history, cached PDFs and reports. It lives outside the skill folder, so plugin updates never touch it, and it is never committed to git.
 
 Read these on demand, not all up front:
-- `data/research-profile.json`: the user's research profile. **Load it at the start of every invocation.**
+- `$DATA/research-profile.json`: the user's research profile. **Load it at the start of every invocation.**
 - `references/profile-setup.md`: first-run setup, profile commands, profile schema.
 - `references/search-strategy.md`: API endpoints, discipline-specific sources, query building, citation tracking.
 - `references/extraction.md`: what to extract, evidence rules, the paper card format.
@@ -20,9 +20,9 @@ Read these on demand, not all up front:
 
 ## Step 0: load the research profile (every invocation)
 
-Run `state.py profile-check`.
+Run `state.py data-dir` (remember the path as `$DATA`), then `state.py profile-check`.
 - **`missing profile` or missing required fields:** run setup from `references/profile-setup.md` before anything else, unless the request is only `status`.
-- **Profile OK:** read `data/research-profile.json` and use it as the research context. Don't ask setup questions again.
+- **Profile OK:** read `$DATA/research-profile.json` and use it as the research context. Don't ask setup questions again.
 
 All of the following derive from the profile: topic, research question, `project_context`, streams, terms, years, preferred sources, relevance rubric and sheet. Never assume a discipline the profile doesn't state.
 
@@ -60,7 +60,7 @@ All of the following derive from the profile: topic, research question, `project
 3. **Pre-filter.** Write the raw candidates (`[{"doi":..,"title":..}]`) to a temp JSON and run `state.py filter`. Drop everything it reports as known. Previously rejected papers stay out unless the user asks for them.
 4. **Screen** by title, abstract and venue against the profile, using its `relevance_rubric` (or the default rubric in `references/extraction.md`). Keep only papers that plausibly score ≥ 6/10. Respect `year_range`. Allow older work only if `allow_older_foundational` is true and the paper is clearly foundational; say why.
 5. **Verify** metadata via Crossref `/works/{doi}`, or DataCite `/dois/{doi}` if Crossref returns 404. Title, authors, year, venue and DOI must agree. Drop or flag anything that doesn't resolve.
-6. **Full text.** Find a legal open-access copy (see `references/search-strategy.md` §Full text). Download it to `$SKILL/data/pdfs/<doi with / replaced by _>.pdf`, check it's a real PDF, then read it with the Read tool (use `pages` for long PDFs). Never bypass paywalls or bot checks. Set availability to `Full text`, `Abstract only` or `Metadata only`.
+6. **Full text.** Find a legal open-access copy (see `references/search-strategy.md` §Full text). Download it to `$DATA/pdfs/<doi with / replaced by _>.pdf`, check it's a real PDF, then read it with the Read tool (use `pages` for long PDFs). Never bypass paywalls or bot checks. Set availability to `Full text`, `Abstract only` or `Metadata only`.
 7. **Extract** per `references/extraction.md`. If the profile has a sheet, fill `sheet.<key>` for each configured column. Save to a temp JSON and run `state.py add <file>`. The paper is now `pending`.
 8. Continue with the review loop.
 
