@@ -1,0 +1,19 @@
+# Personal research data: profile, sheet IDs, review history, search log, reports, cached PDFs
+data/
+
+# Downloaded publications anywhere in the tree
+*.pdf
+
+# Credentials and local environment
+.env
+.env.*
+*.key
+credentials*.json
+token*.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+*.tmp

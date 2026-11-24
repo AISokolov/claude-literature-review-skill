@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "topic": {
+    "title": "Effects of urban green space on adolescent mental health",
+    "status": "preliminary",
+    "alternatives": ["Neighbourhood greenness and depressive symptoms in adolescents"]
+  },
+  "research_question": "Is exposure to urban green space associated with fewer depressive and anxiety symptoms in adolescents, and through which pathways?",
+  "discipline": "Environmental epidemiology / public health",
+  "project_context": "Master's thesis using a regional school-based survey linked to satellite-derived greenness (NDVI).",
+  "streams": [
+    {"name": "Green space exposure assessment", "description": "NDVI, land-use data, park access, residential vs activity-space exposure."},
+    {"name": "Adolescent mental health outcomes", "description": "Depression, anxiety, wellbeing scales validated for adolescents."},
+    {"name": "Mechanisms and pathways", "description": "Physical activity, social cohesion, stress reduction, air pollution and noise mitigation."},
+    {"name": "Methods and confounding", "description": "Cohort vs cross-sectional designs, socioeconomic confounding, spatial analysis, multilevel models."}
+  ],
+  "terms": [
+    "urban green space", "greenness", "NDVI", "park access", "nature exposure",
+    "adolescent depression", "adolescent anxiety", "mental wellbeing", "youth mental health",
+    "restorative environments", "attention restoration theory", "stress reduction theory",
+    "neighbourhood deprivation", "multilevel model", "cohort study"
+  ],
+  "year_range": {"from": 2012, "to": null, "allow_older_foundational": true},
+  "preferred_sources": {
+    "venues": ["Environmental Health Perspectives", "Environment International", "Health & Place", "Landscape and Urban Planning", "JAMA Pediatrics"],
+    "databases": ["OpenAlex", "Europe PMC", "PubMed", "Semantic Scholar", "Crossref"]
+  },
+  "openalex_filters": {"subfield_ids": ["2739", "2738"], "note": "2739 = Public Health, Environmental and Occupational Health; 2738 = Psychiatry and Mental health. Filled in by setup via https://api.openalex.org/subfields?search=<discipline>."},
+  "relevance_rubric": {
+    "9-10": "Quantitative study linking green-space exposure to adolescent mental-health outcomes with adequate confounder control.",
+    "7-8": "Strong evidence on one stream that transfers (e.g., adult green-space studies with rigorous exposure assessment; validated adolescent outcome measures).",
+    "5-6": "Adjacent context: theory, reviews, or other age groups or exposures.",
+    "0-4": "Tangential; don't queue unless asked."
+  },
+  "notes": "",
+  "sheet": {
+    "spreadsheet_id": "YOUR_SPREADSHEET_ID",
+    "name": "Literature matrix",
+    "do_not_write": [],
+    "tab": "Sheet1",
+    "sheet_id": 0,
+    "header_row": 1,
+    "mapping_confirmed": false,
+    "columns": [
+      {"header": "Reference", "key": "title_link", "instruction": "Title, a blank line, then 'Link' as a hyperlink.", "link": {"text": "Link", "target": "pdf_then_doi"}},
+      {"header": "Design & sample", "key": "design", "instruction": "1-2 sentences: study design, country, N, age range."},
+      {"header": "Exposure", "key": "exposure", "instruction": "Short phrase: how green space was measured."},
+      {"header": "Outcome", "key": "outcome", "instruction": "Short phrase: outcome and instrument."},
+      {"header": "Key findings", "key": "findings", "instruction": "'• ' bullets with effect sizes and CIs where reported."},
+      {"header": "Limitations", "key": "limitations", "instruction": "One prose paragraph, stated and inferred."},
+      {"header": "Relevance", "key": "relevance", "instruction": "One sentence relating the paper to the research question."}
+    ]
+  }
+}
